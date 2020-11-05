@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<phpunit
+  bootstrap="vendor/autoload.php"
+  verbose="true"
+  colors="true"
+  columns="max"
+  cacheResult="true"
+  convertNoticesToExceptions="false"
+>
+  <testsuites>
+    <testsuite name="Concurrently package tests">
+      <directory>tests</directory>
+    </testsuite>
+  </testsuites>
+  <filter>
+    <whitelist>
+      <directory suffix=".php">src</directory>
+    </whitelist>
+  </filter>
+</phpunit>
