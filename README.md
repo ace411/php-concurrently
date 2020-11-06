@@ -33,7 +33,7 @@ It is possible to add to a `composer.json` file - a `php-concurrently`-executabl
 ```json
 {
   "scripts": {
-    "app:run": "composer server:run, composer worker:run",
+    "app:run": "concurrently \"composer server:run, composer worker:run\"",
     "server:run": "php -f server.php 4000",
     "worker:run": "php -f worker.php"
   }

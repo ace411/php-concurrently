@@ -10,7 +10,10 @@
     "reactive programming",
     "rxphp",
     "reactphp",
-    "observables"
+    "observables",
+    "multiple processes",
+    "terminal",
+    "console"
   ],
   "license": "Apache-2.0",
   "authors": [
@@ -37,7 +40,8 @@
     "seregazhuk/react-promise-testing": "~0"
   },
   "suggest": {
-    "ext-uv": "A high performance event-loop written in C"
+    "ext-uv": "A high performance event-loop written in C",
+    "ext-event": "An interface to the event library written in C"
   },
   "autoload": {
     "psr-4": {
