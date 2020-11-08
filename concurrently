@@ -15,21 +15,21 @@ foreach (
 		__DIR__ . '/../../autoload.php',
 		__DIR__ . '/../vendor/autoload.php',
 		__DIR__ . '/vendor/autoload.php',
-		__DIR__ . '/../../vendor/autoload.php'
+		__DIR__ . '/../../vendor/autoload.php',
 	] as $file
 ) {
-	if (file_exists($file)) {
-		define('AUTOLOAD_PHP_FILE', $file);
-		break;
-	}    
+  if (\file_exists($file)) {
+    \define('AUTOLOAD_PHP_FILE', $file);
+    break;
+  }
 }
-if (!defined('AUTOLOAD_PHP_FILE')) {
-	fwrite(STDERR,
+if (!\defined('AUTOLOAD_PHP_FILE')) {
+  \fwrite(STDERR,
 		'You need to set up the project dependencies using the following commands:' . PHP_EOL .
 		'wget http://getcomposer.org/composer.phar' . PHP_EOL .
 		'php composer.phar install' . PHP_EOL
 	);
-	die(1);
+  die(1);
 }
 require AUTOLOAD_PHP_FILE;
 
@@ -43,20 +43,20 @@ use Chemem\{
 
 // terminate process if it is running outside a console environment
 if (PHP_SAPI !== 'cli') {
-	IO\putStr('Sorry, php-concurrently only runs in a console environment')
+  IO\putStr('Sorry, php-concurrently only runs in a console environment')
 		->map(function ($_) {
-			exit();
+		  exit();
 		})
 		->exec();
 }
 
 // set general exception handler
-set_exception_handler(function ($_) {
-	return IO\putStr('Sorry, an error occurred')->exec();
+\set_exception_handler(function ($_) {
+  return IO\putStr('Sorry, an error occurred')->exec();
 });
 
 // convert script arguments to parsable string
-$args = implode(' ', f\dropLeft($argv, 1));
+$args = \implode(' ', f\dropLeft($argv, 1));
 
 $loop = Factory::create();
 
