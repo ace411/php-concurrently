@@ -93,6 +93,7 @@ class Handler
           $writable->write(
             f\concat(
               PHP_EOL,
+              '',
               applyTextColor($prefix, !$color ? 'none' : 'dark_gray'),
               '',
             ),
