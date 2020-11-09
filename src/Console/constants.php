@@ -46,10 +46,11 @@ const HELP_INFO = [
  */
 const EXAMPLES = [
   'Output nothing more than stdout + stderr'              => 'concurrently \"ls,cat file.txt\"',
-  'Log results to a file'                                 => 'concurrently \"ls,cat file.txt\" > log.txt',
+  'Asynchronously print results to a file'                => 'concurrently \"ls,cat file.txt\" > log.txt',
   'Specify maximum number of processes to keep in queue'  => 'concurrently -m=4 \"ls,cat file.txt\"',
   'Specify process name separator'                        => 'concurrently --name-separator=\"|\" \"ls|cat file.txt\"',
   'Run tasks asynchronously without logging any output'   => 'concurrently -s \"composer server:run|yarn start\"',
+  'Run tasks without the spinner loading effect'          => 'concurrently --no-spinner \"composer server:run, yarn start\"',
 ];
 
 /**
