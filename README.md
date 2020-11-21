@@ -1,4 +1,15 @@
+<div style="text-align:center">
+
+![](https://ucarecdn.com/28200921-29f6-4683-abf7-641cafbc2dfc/concurrentlybasic.png)
+
 # php-concurrently
+
+[![License](https://poser.pugx.org/chemem/php-concurrently/license)](//packagist.org/packages/chemem/php-concurrently)
+[![Build Status](https://travis-ci.org/ace411/php-concurrently.svg?branch=master)](https://travis-ci.org/ace411/php-concurrently)
+[![Latest Stable Version](https://poser.pugx.org/chemem/php-concurrently/v)](//packagist.org/packages/chemem/php-concurrently)
+[![composer.lock](https://poser.pugx.org/chemem/php-concurrently/composerlock)](//packagist.org/packages/chemem/php-concurrently)
+
+</div>
 
 A PHP version of [concurrently](https://npmjs.com/package/concurrently) written atop ReactPHP and RxPHP.
 
