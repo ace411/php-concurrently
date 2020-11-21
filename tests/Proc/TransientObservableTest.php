@@ -114,7 +114,7 @@ class TransientObservableTest extends \seregazhuk\React\PromiseTesting\TestCase
         $transient  = function (array $data, $resolve = true) {
           return f\map(function ($entry) use ($resolve) {
             return Transient::fromPromise(
-              $resolve ? resolve($data) : reject($data),
+              $resolve ? resolve($data) : reject($data)
             );
           }, $data);
         };

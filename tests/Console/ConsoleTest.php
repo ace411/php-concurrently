@@ -99,7 +99,7 @@ class ConsoleTest extends \seregazhuk\React\PromiseTesting\TestCase
             'processes',
             'max_processes',
             'name_separator'
-          ),
+          )
         );
       });
   }
@@ -132,8 +132,8 @@ class ConsoleTest extends \seregazhuk\React\PromiseTesting\TestCase
             c\printProcessResult,
             $pluck('color'),
             $pluck('silent'),
-            $this->eventLoop(),
-          ),
+            $this->eventLoop()
+          )
         );
 
         $this->assertInstanceOf(IO::class, $exec);
