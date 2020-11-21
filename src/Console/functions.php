@@ -94,9 +94,9 @@ function parse(LoopInterface $loop, string $input): IO
           $spinner,
           $color,
           $silent,
-          $loop,
+          $loop
         ),
-        f\partial(executeProcesses, $loop),
+        f\partial(executeProcesses, $loop)
       );
 
       return $res(IO\IO($args));
@@ -181,8 +181,8 @@ function parseHelpCmd(): IO
       'General',
       printTable(HELP_INFO, 1.2),
       'Examples',
-      printTable(EXAMPLES, 1.2),
-    ),
+      printTable(EXAMPLES, 1.2)
+    )
   );
 }
 
@@ -277,7 +277,7 @@ function executeProcesses(LoopInterface $loop, array $args = DEFAULT_PROC_OPTS):
         // create TransientObservable from `echo ...` process
         return TransientObservable::fromPromise(
           Handler::for($loop)
-            ->asyncProcess(f\concat(' ', 'echo', $msg)),
+            ->asyncProcess(f\concat(' ', 'echo', $msg))
         );
       },
       // run processes normally in the event of success
@@ -290,7 +290,7 @@ function executeProcesses(LoopInterface $loop, array $args = DEFAULT_PROC_OPTS):
             \explode($pluck('name_separator'), $pluck('processes')),
             $pluck('max_processes'),
             $pluck('silent'),
-            $pluck('color'),
+            $pluck('color')
           );
       },
       // perform error checks
@@ -305,9 +305,9 @@ function executeProcesses(LoopInterface $loop, array $args = DEFAULT_PROC_OPTS):
 
           return \preg_match(
             f\concat('', '/(\\', $pluck('name_separator'), ')+/'),
-            $pluck('processes'),
+            $pluck('processes')
           );
-        }, 'Separator mismatch'),
+        }, 'Separator mismatch')
     );
   });
 }
@@ -359,8 +359,8 @@ function printProcessResult(
           },
           function () use ($print) {
             return $print('');
-          },
-        ),
+          }
+        )
       );
   });
 }
@@ -389,7 +389,7 @@ function printSpinner(LoopInterface $loop, bool $color = true): IO
       $spinner->interval(),
       function () use ($spinner) {
         $spinner->spin();
-      },
+      }
     );
   });
 }

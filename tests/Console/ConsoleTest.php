@@ -30,7 +30,7 @@ class ConsoleTest extends \seregazhuk\React\PromiseTesting\TestCase
       ->forAll(
         Generator\suchThat(function (string $str) {
           return !empty($str) && \strlen($str) > 3;
-        }, Generator\names()),
+        }, Generator\names())
       )
       ->then(function (string $str) {
         $colored = c\applyTextColor($str);
@@ -51,7 +51,7 @@ class ConsoleTest extends \seregazhuk\React\PromiseTesting\TestCase
           'help'    => Generator\constant('concurrently --help'),
           'version' => Generator\constant('concurrently --version'),
           'run'     => Generator\constant('concurrently \"ls,find composer.lock\"'),
-        ]),
+        ])
       )
       ->then(function (array $body) {
         $table = c\printTable($body);
@@ -83,8 +83,8 @@ class ConsoleTest extends \seregazhuk\React\PromiseTesting\TestCase
           '--name-separator=";" -m=4 "find composer.lock;pwd"',
           '-s "ls,cat foo.txt"',
           '--no-color "ls,cat foo.txt"',
-          '--no-spinner --no-color "ls", "find composer.lock"',
-        ),
+          '--no-spinner --no-color "ls", "find composer.lock"'
+        )
       )
       ->then(function (string $cmd) {
         $args = c\encodeConsoleArgs($cmd);
@@ -98,7 +98,7 @@ class ConsoleTest extends \seregazhuk\React\PromiseTesting\TestCase
             'spinner',
             'processes',
             'max_processes',
-            'name_separator',
+            'name_separator'
           ),
         );
       });
@@ -120,9 +120,9 @@ class ConsoleTest extends \seregazhuk\React\PromiseTesting\TestCase
             '--name-separator=";" -m=4 "find composer.lock;pwd"',
             '-s "ls,cat foo.txt"',
             '--no-color "ls,cat foo.txt"',
-            '--no-spinner --no-color "ls", "find composer.lock"',
-          ),
-        ),
+            '--no-spinner --no-color "ls", "find composer.lock"'
+          )
+        )
       )
       ->then(function (array $args) {
         $pluck      = f\partial(f\pluck, $args);

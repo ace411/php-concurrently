@@ -67,7 +67,7 @@ class TransientObservable
   public function merge(TransientObservable $transient): TransientObservable
   {
     return $this->update(
-      $this->observable->merge($transient->getObservable()),
+      $this->observable->merge($transient->getObservable())
     );
   }
 
@@ -98,7 +98,7 @@ class TransientObservable
           }
 
           return $transient;
-        }),
+        })
     );
   }
 
