@@ -25,7 +25,7 @@ class TransientObservableTest extends \seregazhuk\React\PromiseTesting\TestCase
   {
     $this
       ->forAll(
-        Generator\subset([2, 3.2, 'foo', 'bar', 'baz']),
+        Generator\subset([2, 3.2, 'foo', 'bar', 'baz'])
       )
       ->then(function ($val) {
         $transient = Transient::fromPromise(resolve($val));
@@ -41,7 +41,7 @@ class TransientObservableTest extends \seregazhuk\React\PromiseTesting\TestCase
   {
     $this
       ->forAll(
-        Generator\subset([2, 3.2, 'foo', 'bar', 'baz']),
+        Generator\subset([2, 3.2, 'foo', 'bar', 'baz'])
       )
       ->then(function ($val) {
         $transient = Transient::fromPromise(resolve($val));
@@ -58,7 +58,7 @@ class TransientObservableTest extends \seregazhuk\React\PromiseTesting\TestCase
     $this
       ->forAll(
         Generator\subset([2, 3.2, 'foo', 'bar', 'baz']),
-        Generator\subset([4, 'foo-bar', null, 'mixer', (object) \range(1, 3)]),
+        Generator\subset([4, 'foo-bar', null, 'mixer', (object) \range(1, 3)])
       )
       ->then(function (array $fst, array $snd) {
         $success = Transient::fromPromise(resolve($fst))
@@ -71,20 +71,20 @@ class TransientObservableTest extends \seregazhuk\React\PromiseTesting\TestCase
         $this->assertPromiseFulfills(
           $success
             ->getObservable()
-            ->toPromise(),
+            ->toPromise()
         );
         $this->assertTrueAboutPromise(
           $success
             ->getObservable()
             ->toPromise(),
-          'is_array',
+          'is_array'
         );
 
         $this->assertInstanceOf(Transient::class, $failure);
         $this->assertPromiseRejects(
           $failure
             ->getObservable()
-            ->toPromise(),
+            ->toPromise()
         );
       });
   }
@@ -98,12 +98,12 @@ class TransientObservableTest extends \seregazhuk\React\PromiseTesting\TestCase
       ->forAll(
         Generator\tuple(
           Generator\elements('foo', 'bar'),
-          Generator\choose(1, 4),
+          Generator\choose(1, 4)
         ),
         Generator\tuple(
           Generator\elements('baz', 'bat'),
-          Generator\choose(3, 8),
-        ),
+          Generator\choose(3, 8)
+        )
       )
       ->then(function (array $fst, array $snd) {
         // create a single TransientObservable from multiple TransientObservables
@@ -114,7 +114,7 @@ class TransientObservableTest extends \seregazhuk\React\PromiseTesting\TestCase
         $transient  = function (array $data, $resolve = true) {
           return f\map(function ($entry) use ($resolve) {
             return Transient::fromPromise(
-              $resolve ? resolve($data) : reject($data),
+              $resolve ? resolve($data) : reject($data)
             );
           }, $data);
         };
@@ -126,14 +126,14 @@ class TransientObservableTest extends \seregazhuk\React\PromiseTesting\TestCase
         $this->assertPromiseFulfills(
           $success
             ->getObservable()
-            ->toPromise(),
+            ->toPromise()
         );
 
         $this->assertInstanceOf(Transient::class, $failure);
         $this->assertPromiseRejects(
           $failure
             ->getObservable()
-            ->toPromise(),
+            ->toPromise()
         );
       });
   }

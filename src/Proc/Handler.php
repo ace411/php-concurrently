@@ -95,8 +95,8 @@ class Handler
               PHP_EOL,
               '',
               applyTextColor($prefix, !$color ? 'none' : 'dark_gray'),
-              '',
-            ),
+              ''
+            )
           );
           $writable->write($printable);
         }
@@ -138,7 +138,7 @@ class Handler
           $cmd,
           $silent,
           $color,
-          f\concat(' ', '$', $cmd),
+          f\concat(' ', '$', $cmd)
         );
       },
     );
@@ -146,7 +146,7 @@ class Handler
     return $this->observableFromArray(
       f\map(function (string $cmd) use ($queue) {
         return TransientObservable::fromPromise($queue($cmd));
-      }, $cmds),
+      }, $cmds)
     );
   }
 

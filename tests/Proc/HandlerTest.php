@@ -20,7 +20,7 @@ class HandlerTest extends \seregazhuk\React\PromiseTesting\TestCase
   {
     $this
       ->forAll(
-        Generator\elements('ls', 'find composer.json', 'php foo.php'),
+        Generator\elements('ls', 'find composer.json', 'php foo.php')
       )
       ->then(function (string $cmd) {
         $proc = Handler::for($this->eventLoop())
@@ -43,9 +43,9 @@ class HandlerTest extends \seregazhuk\React\PromiseTesting\TestCase
           Generator\constant('ls'),
           Generator\constant('find composer.json'),
           Generator\constant('php foo.php'),
-          Generator\constant('pwd'),
+          Generator\constant('pwd')
         ),
-        Generator\choose(5, 7),
+        Generator\choose(5, 7)
       )
       ->then(function (array $cmds, int $maxProcesses) {
         $processes = Handler::for($this->eventLoop())
