@@ -1,6 +1,6 @@
-<div style="text-align:center">
+<div style="text-align:center;display:flex;flex-direction:column;justify-items:center;justify-content:center;align-items:center">
 
-![](https://ucarecdn.com/28200921-29f6-4683-abf7-641cafbc2dfc/concurrentlybasic.png)
+<img src="https://ucarecdn.com/28200921-29f6-4683-abf7-641cafbc2dfc/concurrentlybasic.png" width="450" height="auto" />
 
 # php-concurrently
 
