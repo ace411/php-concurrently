@@ -1,6 +1,8 @@
-<div style="text-align:center;display:flex;flex-direction:column;justify-items:center;justify-content:center;align-items:center">
+<p align="center">
+  <img src="https://ucarecdn.com/28200921-29f6-4683-abf7-641cafbc2dfc/concurrentlybasic.png" width="450" height="auto" />
+</p>
 
-<img src="https://ucarecdn.com/28200921-29f6-4683-abf7-641cafbc2dfc/concurrentlybasic.png" width="450" height="auto" />
+<p align="center">
 
 # php-concurrently
 
@@ -9,7 +11,7 @@
 [![Latest Stable Version](https://poser.pugx.org/chemem/php-concurrently/v)](//packagist.org/packages/chemem/php-concurrently)
 [![composer.lock](https://poser.pugx.org/chemem/php-concurrently/composerlock)](//packagist.org/packages/chemem/php-concurrently)
 
-</div>
+</p>
 
 A PHP version of [concurrently](https://npmjs.com/package/concurrently) written atop ReactPHP and RxPHP.
 
