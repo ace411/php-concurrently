@@ -102,7 +102,7 @@ class Handler
         }
 
         return $printable;
-      }),
+      })
     );
   }
 
@@ -140,7 +140,7 @@ class Handler
           $color,
           f\concat(' ', '$', $cmd)
         );
-      },
+      }
     );
 
     return $this->observableFromArray(
