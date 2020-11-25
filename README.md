@@ -2,8 +2,6 @@
   <img src="https://ucarecdn.com/28200921-29f6-4683-abf7-641cafbc2dfc/concurrentlybasic.png" width="450" height="auto" />
 </p>
 
-<p align="center">
-
 <h1 align="center">php-concurrently</h1>
 
 <p align="center">
