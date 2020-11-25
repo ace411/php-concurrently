@@ -4,7 +4,9 @@
 
 <p align="center">
 
-# php-concurrently
+<h1 align="center">php-concurrently</h1>
+
+<p align="center">
 
 [![License](https://poser.pugx.org/chemem/php-concurrently/license)](//packagist.org/packages/chemem/php-concurrently)
 [![Build Status](https://travis-ci.org/ace411/php-concurrently.svg?branch=master)](https://travis-ci.org/ace411/php-concurrently)
