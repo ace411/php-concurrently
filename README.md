@@ -4,7 +4,7 @@
 
 <h1 align="center">php-concurrently</h1>
 
-<span style="display:block;text-align:center;">
+<span style="display:block;text-align:center;" align="center">
 
 [![License](https://poser.pugx.org/chemem/php-concurrently/license)](//packagist.org/packages/chemem/php-concurrently)
 ![PHP Composer](https://github.com/ace411/php-concurrently/workflows/PHP%20Composer/badge.svg)
