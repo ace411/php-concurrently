@@ -4,7 +4,11 @@
 
 <h1 align="center">php-concurrently</h1>
 
+<<<<<<< HEAD
 <span style="display:block;text-align:center;" align="center">
+=======
+<span style="display:block;text-align:center;">
+>>>>>>> 445741ad6f641d4dd4a295823e33339a65929b6c
 
 [![License](https://poser.pugx.org/chemem/php-concurrently/license)](//packagist.org/packages/chemem/php-concurrently)
 ![PHP Composer](https://github.com/ace411/php-concurrently/workflows/PHP%20Composer/badge.svg)
