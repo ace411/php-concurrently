@@ -3,7 +3,7 @@
 /**
  * Handler
  * asynchronous process handler
- * 
+ *
  * @author Lochemem Bruno Michael
  * @license Apache-2.0
  */
@@ -12,16 +12,14 @@ declare(strict_types=1);
 
 namespace Chemem\Concurrently\Proc;
 
-use \React\{
-  Promise\Stream,
-  ChildProcess\Process,
-  EventLoop\LoopInterface,
-  Promise\PromiseInterface,
-  Stream\WritableResourceStream,
-};
+use React\Promise\Stream;
+use React\ChildProcess\Process;
+use React\EventLoop\LoopInterface;
+use React\Promise\PromiseInterface;
+use React\Stream\WritableResourceStream;
 use Rx\Observable;
-use \Clue\React\Mq\Queue;
-use \Chemem\Bingo\Functional\Algorithms as f;
+use Clue\React\Mq\Queue;
+use Chemem\Bingo\Functional as f;
 use function Chemem\Concurrently\Console\applyTextColor;
 
 class Handler
@@ -41,15 +39,15 @@ class Handler
   /**
    * for
    * creates new Handler instance
-   * 
+   *
    * for :: Object -> Object
-   * 
+   *
    * @param LoopInterface $loop
    * @return Handler
    * @example
-   * 
+   *
    * Handler::for($loop)
-   * // => object(Chemem\Concurrently\Proc\Handler) {}
+   * => object(Chemem\Concurrently\Proc\Handler) {}
    */
   public static function for(LoopInterface $loop): Handler
   {
@@ -59,16 +57,16 @@ class Handler
   /**
    * asyncProcess
    * runs a process asynchronously and subsumes its result in a Promise
-   * 
-   * asyncProcess :: a -> Bool -> Promise s a 
-   * 
+   *
+   * asyncProcess :: a -> Bool -> Promise s a
+   *
    * @param string $cmd
    * @param boolean $silent
    * @return PromiseInterface
    * @example
-   * 
+   *
    * Handler::for($loop)->asyncProcess('ls', false)
-   * // => object(React\Promise\Promise) {}
+   * => object(React\Promise\Promise) {}
    */
   public function asyncProcess(
     string $cmd,
@@ -110,16 +108,16 @@ class Handler
    * multipleProcesses
    * executes multiple processes concurrently and subsumes the composite result in an observable
    *
-   * multipleProcesses :: [a] -> Int -> Bool -> TransientObservable a 
-   * 
+   * multipleProcesses :: [a] -> Int -> Bool -> TransientObservable a
+   *
    * @param array $cmds
    * @param integer|null $maxProcesses
    * @param boolean $silent
    * @return TransientObservable
    * @example
-   * 
+   *
    * // Handler::for($loop)->multipleProcesses(['ls', 'cat file.txt'], 2, false)
-   * // => object(Chemem\Concurrently\Proc\TransientObservable) {}
+   * => object(Chemem\Concurrently\Proc\TransientObservable) {}
    */
   public function multipleProcesses(
     array $cmds,
@@ -153,9 +151,9 @@ class Handler
   /**
    * observableFromArray
    * creates a TransientObservable instance from an array containing promises
-   * 
+   *
    * observableFromArray :: [Promise s a] -> TransientObservable a
-   * 
+   *
    * @param array $promises
    * @return TransientObservable
    */

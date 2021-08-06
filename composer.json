@@ -6,6 +6,9 @@
     "concurrently",
     "concurrent processes",
     "concurrent execution",
+    "single terminal",
+    "single console window",
+    "js concurrently",
     "asynchronous",
     "reactive programming",
     "rxphp",
@@ -25,7 +28,7 @@
   ],
   "require": {
     "alecrabbit/php-cli-snake": "~0",
-    "chemem/bingo-functional": "~1",
+    "chemem/bingo-functional": "~2",
     "clue/mq-react": "~1",
     "mmarica/display-table": "~1",
     "php-parallel-lint/php-console-color": "~1",
@@ -40,8 +43,8 @@
     "seregazhuk/react-promise-testing": "~0"
   },
   "suggest": {
-    "ext-uv": "A high performance event-loop written in C",
-    "ext-event": "An interface to the event library written in C"
+    "ext-event": "An interface to the event library written in C",
+    "ext-uv": "A high performance event-loop written in C"
   },
   "autoload": {
     "psr-4": {
@@ -62,8 +65,7 @@
     "concurrently"
   ],
   "scripts": {
-    "cs:fix": "php-cs-fixer fix --config=.php_cs --diff --verbose --allow-risky=yes",
-    "cs:fix-dry": "php-cs-fixer fix --config=.php_cs --diff --verbose --dry-run --allow-risky=yes",
+    "cs:fix": "php-cs-fixer fix --config=.php-cs-fixer.php --diff --verbose --allow-risky=yes",
     "test": "phpunit -c phpunit.xml.dist"
   }
 }

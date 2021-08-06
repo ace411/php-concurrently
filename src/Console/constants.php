@@ -3,7 +3,7 @@
 /**
  * constants.php
  * Important Console constants
- * 
+ *
  * @author Lochemem Bruno Michael
  * @license Apache-2.0
  */

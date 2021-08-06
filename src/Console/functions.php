@@ -2,7 +2,7 @@
 
 /**
  * Console functions
- * 
+ *
  * @author Lochemem Bruno Michael
  * @license Apache-2.0
  */
@@ -11,38 +11,32 @@ declare(strict_types=1);
 
 namespace Chemem\Concurrently\Console;
 
-use \Chemem\Bingo\Functional\{
-  Algorithms as f,
-  Functors\Either,
-  Functors\Monads\IO,
-  Functors\Monads as m,
-  PatternMatching as p,
-};
-use Chemem\Concurrently\Proc\{
-  Handler,
-  TransientObservable,
-};
-use \AlecRabbit\Snake\{
-  Spinner,
-  Contracts\Color,
-};
-use \Mmarica\DisplayTable;
-use \Rx\Observer\CallbackObserver;
-use \React\EventLoop\LoopInterface;
-use \PHP_Parallel_Lint\PhpConsoleColor\ConsoleColor;
+use Chemem\Bingo\Functional as f;
+use Chemem\Bingo\Functional\Functors\Monads\Either;
+use Chemem\Bingo\Functional\Functors\Monads\IO;
+use Chemem\Bingo\Functional\Functors\Monads as m;
+use Chemem\Bingo\Functional\PatternMatching as p;
+use Chemem\Concurrently\Proc\Handler;
+use Chemem\Concurrently\Proc\TransientObservable;
+use AlecRabbit\Snake\Spinner;
+use AlecRabbit\Snake\Contracts\Color;
+use Mmarica\DisplayTable;
+use Rx\Observer\CallbackObserver;
+use React\EventLoop\LoopInterface;
+use PHP_Parallel_Lint\PhpConsoleColor\ConsoleColor;
 
 /**
  * parse
  * parse Console input
  *
  * parse :: String -> IO ()
- * 
+ *
  * @param string $input
  * @return IO
  * @example
- * 
+ *
  * parse('--help')
- * // => object(Chemem\Bingo\Functional\Functors\Monads\IO) {}
+ * => object(Chemem\Bingo\Functional\Functors\Monads\IO) {}
  */
 function parse(LoopInterface $loop, string $input): IO
 {
@@ -54,7 +48,7 @@ function parse(LoopInterface $loop, string $input): IO
   });
   // IO-composed help info print functions
   $help     = $print(parseHelpCmd);
-  
+
   $matches  = p\match([
     '(x:_)' => function (string $opt) use ($help, $version) {
       return p\patternMatch([
@@ -113,15 +107,15 @@ const parse = __NAMESPACE__ . '\\parse';
  * prints a SQL-esque table
  *
  * printTable :: String -> [a] -> String
- * 
+ *
  * @param string $header
  * @param array $body
  * @param integer $vpadding
  * @return string
  * @example
- * 
+ *
  * printTable(['Print help' => 'concurrently --help'], 1.2, 1)
- * // => Print help           concurrently --help
+ * => Print help           concurrently --help
  */
 function printTable(
   array $body,
@@ -142,20 +136,20 @@ const printTable = __NAMESPACE__ . '\\printTable';
 /**
  * applyTextColor
  * creates colored text
- * 
+ *
  * applyTextColor :: String -> String -> String
- * 
+ *
  * @param string $text
  * @param string $color
  * @return string
  * @example
- * 
+ *
  * applyTextColor('foo', 'cyan')
- * // => \033[36foom
+ * => \033[36foom
  */
 function applyTextColor(string $text, string $color = 'none'): string
 {
-  return (new ConsoleColor)->apply($color, $text);
+  return (new ConsoleColor())->apply($color, $text);
 }
 
 const applyTextColor = __NAMESPACE__ . '\\applyTextColor';
@@ -165,12 +159,12 @@ const applyTextColor = __NAMESPACE__ . '\\applyTextColor';
  * prints help command information
  *
  * parseHelpCmd :: IO ()
- * 
+ *
  * @return IO
  * @example
- * 
+ *
  * parseHelpCmd()
- * // => object(Chemem\Bingo\Functional\Functors\Monads\IO) {}
+ * => object(Chemem\Bingo\Functional\Functors\Monads\IO) {}
  */
 function parseHelpCmd(): IO
 {
@@ -193,13 +187,13 @@ const parseHelpCmd = __NAMESPACE__ . '\\parseHelpCmd';
  * losslessly converts console arguments to more descriptive key-value pairs
  *
  * encodeConsoleArgs :: String -> Array
- * 
+ *
  * @param string $input
  * @return array
  * @example
- * 
+ *
  * encodeConsoleArgs('--silent --name-separator="|" ls | composer.lock')
- * // => array(4) {["silent"]=>bool(true),["name_separator"]=>string("|"),["max_processes"] ...}
+ * => array(4) {["silent"]=>bool(true),["name_separator"]=>string("|"),["max_processes"] ...}
  */
 function encodeConsoleArgs(string $input): array
 {
@@ -241,7 +235,7 @@ function encodeConsoleArgs(string $input): array
       // "<proc a>, <proc b>" -> ['processes' => '<proc a>,<proc b>']
       '_'                               => function () use ($directive, $acc) {
         $trim = f\partialRight('ltrim', ' ');
-        
+
         return [
           'processes' => f\concat(' ', $trim($acc['processes']), $trim($directive)),
         ];
@@ -257,15 +251,15 @@ const encodeConsoleArgs = __NAMESPACE__ . '\\encodeConsoleArgs';
 /**
  * executeProcesses
  * executes processes concurrently
- * 
- * executeProcesses :: Object -> [a] -> IO () 
+ *
+ * executeProcesses :: Object -> [a] -> IO ()
  *
  * @param LoopInterface $loop
  * @param array $args
  * @return IO
- * 
+ *
  * executeProcesses($loop, DEFAULT_PROC_OPTS)
- * // => object(Chemem\Bingo\Functional\Functors\Monads\IO) {}
+ * => object(Chemem\Bingo\Functional\Functors\Monads\IO) {}
  */
 function executeProcesses(LoopInterface $loop, array $args = DEFAULT_PROC_OPTS): IO
 {
@@ -294,7 +288,7 @@ function executeProcesses(LoopInterface $loop, array $args = DEFAULT_PROC_OPTS):
           );
       },
       // perform error checks
-      Either\Either::right($args)
+      Either::right($args)
         // check if process list is an empty string
         ->filter(function ($args) {
           return !empty($args['processes']);
@@ -319,13 +313,13 @@ const executeProcesses = __NAMESPACE__ . '\\executeProcesses';
  * prints composite result of a TransientObservable
  *
  * printProcessResult :: TransientObservable a -> IO ()
- * 
+ *
  * @param TransientObservable $transient
  * @return IO
  * @example
- * 
+ *
  * printProcessResult(TransientObservable::fromPromise(resolve(2)))
- * // => object(Chemem\Bingo\Functional\Functors\Monads\IO) {}
+ * => object(Chemem\Bingo\Functional\Functors\Monads\IO) {}
  */
 function printProcessResult(
   TransientObservable $transient,
@@ -370,21 +364,21 @@ const printProcessResult = __NAMESPACE__ . '\\printProcessResult';
 /**
  * printSpinner
  * prints Spinner artifact to console
- * 
- * printSpinner :: Object -> Bool -> IO () 
+ *
+ * printSpinner :: Object -> Bool -> IO ()
  *
  * @param LoopInterface $loop
  * @param bool $color
  * @return IO
- * 
+ *
  * printSpinner($loop, true)
- * // => object(Chemem\Bingo\Functional\Functors\Monads\IO) {} 
+ * => object(Chemem\Bingo\Functional\Functors\Monads\IO) {}
  */
 function printSpinner(LoopInterface $loop, bool $color = true): IO
 {
   return IO\IO(function () use ($loop, $color) {
     $spinner = new Spinner($color ? Color::COLOR_256 : Color::NO_COLOR);
-    
+
     return $loop->addPeriodicTimer(
       $spinner->interval(),
       function () use ($spinner) {
