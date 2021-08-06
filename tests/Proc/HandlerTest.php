@@ -6,13 +6,13 @@ namespace Chemem\Concurrently\Tests\Proc;
 
 \error_reporting(0);
 
-use \Eris\Generator;
+use Eris\Generator;
 use Chemem\Concurrently\Proc\Handler;
 
 class HandlerTest extends \seregazhuk\React\PromiseTesting\TestCase
 {
   use \Eris\TestTrait;
-  
+
   /**
    * @test
    */

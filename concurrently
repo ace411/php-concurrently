@@ -37,7 +37,7 @@ use React\EventLoop\Factory;
 use Rx\Scheduler;
 use Chemem\{
 	Concurrently\Console as c,
-	Bingo\Functional\Algorithms as f,
+	Bingo\Functional as f,
 	Bingo\Functional\Functors\Monads\IO,
 };
 

@@ -6,13 +6,12 @@ namespace Chemem\Concurrently\Tests\Proc;
 
 \error_reporting(0);
 
-use \Rx\Observable;
-use \Eris\Generator;
-use Chemem\{
-  Bingo\Functional\Algorithms as f,
-  Concurrently\Proc\TransientObservable as Transient,
-};
-use function \React\Promise\{resolve, reject};
+use Rx\Observable;
+use Eris\Generator;
+use Chemem\Bingo\Functional as f;
+use Chemem\Concurrently\Proc\TransientObservable as Transient;
+use function React\Promise\resolve;
+use function React\Promise\reject;
 
 class TransientObservableTest extends \seregazhuk\React\PromiseTesting\TestCase
 {

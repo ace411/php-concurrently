@@ -4,18 +4,14 @@ declare(strict_types=1);
 
 namespace Chemem\Concurrently\Tests\Console;
 
-use \Eris\Generator;
-use Chemem\{
-  Concurrently\Console as c,
-  Bingo\Functional\Algorithms as f,
-  Bingo\Functional\Functors\Monads\IO,
-  Concurrently\Proc\TransientObservable,
-};
-use \Rx\{
-  Observer,
-  Observable,
-  Disposable\CallbackDisposable,
-};
+use Eris\Generator;
+use Chemem\Concurrently\Console as c;
+use Chemem\Bingo\Functional as f;
+use Chemem\Bingo\Functional\Functors\Monads\IO;
+use Chemem\Concurrently\Proc\TransientObservable;
+use Rx\Observer;
+use Rx\Observable;
+use Rx\Disposable\CallbackDisposable;
 
 class ConsoleTest extends \seregazhuk\React\PromiseTesting\TestCase
 {
