@@ -49,7 +49,7 @@ function parse(LoopInterface $loop, string $input): IO
   // IO-composed help info print functions
   $help     = $print(parseHelpCmd);
 
-  $matches  = p\match([
+  $matches  = p\cmatch([
     '(x:_)' => function (string $opt) use ($help, $version) {
       return p\patternMatch([
         // concurrently -h
