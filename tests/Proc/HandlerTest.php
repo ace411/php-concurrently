@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Chemem\Concurrently\Tests\Proc;
 
-// \error_reporting(0);
-
 use Eris\Generator;
 use Eris\TestTrait;
 use Chemem\Concurrently\Proc\Handler;
 use PHPUnit\Framework\TestCase;
+use React\EventLoop\Loop;
 
 use function React\Async\await;
 use function Chemem\Bingo\Functional\toException;
@@ -53,7 +52,7 @@ class HandlerTest extends TestCase
               $prefix
             ) {
               return await(
-                Handler::for($this->eventLoop())
+                Handler::for(Loop::get())
                   ->asyncProcess($cmd, $color, $prefix, $attempts)
               );
             }
@@ -96,7 +95,7 @@ class HandlerTest extends TestCase
               $maxProcesses
             ) {
               return await(
-                Handler::for($this->eventLoop())
+                Handler::for(Loop::get())
                   ->multipleProcesses($cmds, $maxProcesses, true)
                   ->getObservable()
                   ->toPromise()
