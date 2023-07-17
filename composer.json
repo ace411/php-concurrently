@@ -1,7 +1,8 @@
 {
   "name": "chemem/php-concurrently",
-  "type": "library",
   "description": "A PHP version of concurrently built atop ReactPHP and RxPHP.",
+  "license": "Apache-2.0",
+  "type": "library",
   "keywords": [
     "concurrently",
     "concurrent processes",
@@ -18,7 +19,6 @@
     "terminal",
     "console"
   ],
-  "license": "Apache-2.0",
   "authors": [
     {
       "name": "Lochemem Bruno Michael",
@@ -27,32 +27,34 @@
     }
   ],
   "require": {
-    "alecrabbit/php-cli-snake": "~0",
-    "chemem/bingo-functional": "~2",
-    "clue/mq-react": "~1",
-    "mmarica/display-table": "~1",
-    "php-parallel-lint/php-console-color": "~1",
-    "react/child-process": "~0",
-    "react/promise-stream": "~1",
-    "reactivex/rxphp": "~2"
+    "alecrabbit/php-cli-snake": "^0",
+    "chemem/bingo-functional": "^2",
+    "clue/mq-react": "^1",
+    "esroyo/backoff-async": "dev-master",
+    "pear/console_commandline": "^1",
+    "php-parallel-lint/php-console-color": "^1",
+    "react/child-process": "^0",
+    "reactivex/rxphp": "^2"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "~2",
-    "giorgiosironi/eris": "~0",
-    "phpunit/phpunit": "~8 || ~9",
-    "seregazhuk/react-promise-testing": "~0"
+    "ergebnis/composer-normalize": "^2",
+    "friendsofphp/php-cs-fixer": "^3",
+    "giorgiosironi/eris": "^0",
+    "phpunit/phpunit": "^8 || ^9",
+    "react/async": "^4"
   },
   "suggest": {
-    "ext-event": "An interface to the event library written in C",
-    "ext-uv": "A high performance event-loop written in C"
+    "ext-ev": "An interface to the libev library",
+    "ext-event": "An interface to the libevent library",
+    "ext-uv": "An interface to the libuv library"
   },
+  "minimum-stability": "stable",
   "autoload": {
     "psr-4": {
       "Chemem\\Concurrently\\": "src/"
     },
     "files": [
-      "src/Console/constants.php",
-      "src/Console/functions.php"
+      "src/Proc/functions.php"
     ]
   },
   "autoload-dev": {
@@ -60,12 +62,16 @@
       "Chemem\\Concurrently\\Tests\\": "tests/"
     }
   },
-  "minimum-stability": "stable",
   "bin": [
     "concurrently"
   ],
+  "config": {
+    "allow-plugins": {
+      "ergebnis/composer-normalize": true
+    }
+  },
   "scripts": {
-    "cs:fix": "php-cs-fixer fix --config=.php-cs-fixer.php --diff --verbose --allow-risky=yes",
+    "cs:fix": "php-cs-fixer fix --config=.php-cs-fixer.php --diff --verbose",
     "test": "phpunit -c phpunit.xml.dist"
   }
 }
