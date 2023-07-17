@@ -67,7 +67,9 @@ class TransientObservable
   public function merge(TransientObservable $transient): TransientObservable
   {
     return $this->update(
-      $this->observable->merge($transient->getObservable())
+      $this->observable->merge(
+        $transient->getObservable()
+      )
     );
   }
 
@@ -92,13 +94,15 @@ class TransientObservable
   {
     return $this->merge(
       \array_shift($transients)
-        ->triggerMutation(function ($transient) use ($transients) {
-          for ($idx = 0; $idx < \count($transients); ++$idx) {
-            $transient->merge($transients[$idx]);
-          }
+        ->triggerMutation(
+          function ($transient) use ($transients) {
+            for ($idx = 0; $idx < \count($transients); ++$idx) {
+              $transient->merge($transients[$idx]);
+            }
 
-          return $transient;
-        })
+            return $transient;
+          }
+        )
     );
   }
 

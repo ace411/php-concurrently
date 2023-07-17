@@ -4,14 +4,19 @@ declare(strict_types=1);
 
 namespace Chemem\Concurrently\Tests\Proc;
 
-\error_reporting(0);
+// \error_reporting(0);
 
 use Eris\Generator;
+use Eris\TestTrait;
 use Chemem\Concurrently\Proc\Handler;
+use PHPUnit\Framework\TestCase;
 
-class HandlerTest extends \seregazhuk\React\PromiseTesting\TestCase
+use function React\Async\await;
+use function Chemem\Bingo\Functional\toException;
+
+class HandlerTest extends TestCase
 {
-  use \Eris\TestTrait;
+  use TestTrait;
 
   /**
    * @test
@@ -20,16 +25,43 @@ class HandlerTest extends \seregazhuk\React\PromiseTesting\TestCase
   {
     $this
       ->forAll(
-        Generator\elements('ls', 'find composer.json', 'php foo.php')
+        Generator\elements(
+          'ls',
+          'find composer.json',
+          'php foo.php'
+        ),
+        Generator\bool(),
+        Generator\elements(
+          'ls',
+          'find composer.json',
+          'php foo.php'
+        ),
+        Generator\choose(1, 3)
       )
-      ->then(function (string $cmd) {
-        $proc = Handler::for($this->eventLoop())
-          // set logging to true to preempt priting to STDOUT
-          ->asyncProcess($cmd, true);
+      ->then(
+        function (
+          string $cmd,
+          bool $color,
+          string $prefix,
+          int $attempts
+        ) {
+          $process = toException(
+            function ($result) use (
+              $attempts,
+              $cmd,
+              $color,
+              $prefix
+            ) {
+              return await(
+                Handler::for($this->eventLoop())
+                  ->asyncProcess($cmd, $color, $prefix, $attempts)
+              );
+            }
+          )();
 
-        $this->assertPromiseFulfills($proc);
-        $this->assertTrueAboutPromise($proc, 'is_string');
-      });
+          $this->assertIsString($process);
+        }
+      );
   }
 
   /**
@@ -45,17 +77,35 @@ class HandlerTest extends \seregazhuk\React\PromiseTesting\TestCase
           Generator\constant('php foo.php'),
           Generator\constant('pwd')
         ),
-        Generator\choose(5, 7)
+        Generator\choose(5, 7),
+        Generator\bool(),
+        Generator\choose(1, 3)
       )
-      ->then(function (array $cmds, int $maxProcesses) {
-        $processes = Handler::for($this->eventLoop())
-          // set silent to true to preempt priting to STDOUT
-          ->multipleProcesses($cmds, $maxProcesses, true)
-          ->getObservable()
-          ->toPromise();
+      ->then(
+        function (
+          array $cmds,
+          int $maxProcesses,
+          bool $color,
+          int $attempts
+        ) {
+          $processes = toException(
+            function () use (
+              $attempts,
+              $cmds,
+              $color,
+              $maxProcesses
+            ) {
+              return await(
+                Handler::for($this->eventLoop())
+                  ->multipleProcesses($cmds, $maxProcesses, true)
+                  ->getObservable()
+                  ->toPromise()
+              );
+            }
+          )();
 
-        $this->assertPromiseFulfills($processes);
-        $this->assertTrueAboutPromise($processes, 'is_string');
-      });
+          $this->assertIsString($processes);
+        }
+      );
   }
 }

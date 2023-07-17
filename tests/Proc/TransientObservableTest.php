@@ -4,18 +4,24 @@ declare(strict_types=1);
 
 namespace Chemem\Concurrently\Tests\Proc;
 
-\error_reporting(0);
-
 use Rx\Observable;
 use Eris\Generator;
-use Chemem\Bingo\Functional as f;
+use Eris\TestTrait;
 use Chemem\Concurrently\Proc\TransientObservable as Transient;
+use PHPUnit\Framework\TestCase;
+
+use function Chemem\Bingo\Functional\compose;
+use function Chemem\Bingo\Functional\head;
+use function Chemem\Bingo\Functional\map;
+use function Chemem\Bingo\Functional\tail;
+use function Chemem\Bingo\Functional\toException;
+use function React\Async\await;
 use function React\Promise\resolve;
 use function React\Promise\reject;
 
-class TransientObservableTest extends \seregazhuk\React\PromiseTesting\TestCase
+class TransientObservableTest extends TestCase
 {
-  use \Eris\TestTrait;
+  use TestTrait;
 
   /**
    * @test
@@ -26,11 +32,13 @@ class TransientObservableTest extends \seregazhuk\React\PromiseTesting\TestCase
       ->forAll(
         Generator\subset([2, 3.2, 'foo', 'bar', 'baz'])
       )
-      ->then(function ($val) {
-        $transient = Transient::fromPromise(resolve($val));
+      ->then(
+        function ($val) {
+          $transient = Transient::fromPromise(resolve($val));
 
-        $this->assertInstanceOf(Transient::class, $transient);
-      });
+          $this->assertInstanceOf(Transient::class, $transient);
+        }
+      );
   }
 
   /**
@@ -42,11 +50,16 @@ class TransientObservableTest extends \seregazhuk\React\PromiseTesting\TestCase
       ->forAll(
         Generator\subset([2, 3.2, 'foo', 'bar', 'baz'])
       )
-      ->then(function ($val) {
-        $transient = Transient::fromPromise(resolve($val));
+      ->then(
+        function ($val) {
+          $transient = Transient::fromPromise(resolve($val));
 
-        $this->assertInstanceOf(Observable::class, $transient->getObservable());
-      });
+          $this->assertInstanceOf(
+            Observable::class,
+            $transient->getObservable()
+          );
+        }
+      );
   }
 
   /**
@@ -56,36 +69,41 @@ class TransientObservableTest extends \seregazhuk\React\PromiseTesting\TestCase
   {
     $this
       ->forAll(
-        Generator\subset([2, 3.2, 'foo', 'bar', 'baz']),
-        Generator\subset([4, 'foo-bar', null, 'mixer', (object) \range(1, 3)])
+        Generator\subset(['foo', 'bar', 'baz']),
+        Generator\subset(
+          [
+            'Some error',
+            'Another error',
+            'Yet another error',
+          ]
+        )
       )
-      ->then(function (array $fst, array $snd) {
-        $success = Transient::fromPromise(resolve($fst))
-          ->merge(Transient::fromPromise(resolve($snd)));
+      ->then(
+        function (array $success, array $failure) {
+          $result = toException(
+            function (bool $resolve = true) use ($success, $failure) {
+              return await(
+                $resolve ?
+                  Transient::fromPromise(resolve($success))
+                    ->merge(Transient::fromPromise(resolve($failure)))
+                    ->getObservable()
+                    ->toPromise() :
+                  Transient::fromPromise(reject(new \Exception($success)))
+                    ->merge(
+                      Transient::fromPromise(
+                        reject(new \Exception($failure))
+                      ),
+                    )
+                    ->getObservable()
+                    ->toPromise()
+              );
+            }
+          );
 
-        $failure = Transient::fromPromise(reject($fst))
-          ->merge(Transient::fromPromise(reject($snd)));
-
-        $this->assertInstanceOf(Transient::class, $success);
-        $this->assertPromiseFulfills(
-          $success
-            ->getObservable()
-            ->toPromise()
-        );
-        $this->assertTrueAboutPromise(
-          $success
-            ->getObservable()
-            ->toPromise(),
-          'is_array'
-        );
-
-        $this->assertInstanceOf(Transient::class, $failure);
-        $this->assertPromiseRejects(
-          $failure
-            ->getObservable()
-            ->toPromise()
-        );
-      });
+          $this->assertIsArray($result());
+          $this->assertIsString($result(false));
+        }
+      );
   }
 
   /**
@@ -97,43 +115,43 @@ class TransientObservableTest extends \seregazhuk\React\PromiseTesting\TestCase
       ->forAll(
         Generator\tuple(
           Generator\elements('foo', 'bar'),
-          Generator\choose(1, 4)
-        ),
-        Generator\tuple(
-          Generator\elements('baz', 'bat'),
-          Generator\choose(3, 8)
+          Generator\elements('Some error', 'Another error'),
+          Generator\elements('fooz', 'baz')
         )
       )
-      ->then(function (array $fst, array $snd) {
-        // create a single TransientObservable from multiple TransientObservables
-        $combine    = function (array $transients) {
-          return f\head($transients)->mergeN(...f\tail($transients));
-        };
+      ->then(
+        function (array $inputs) {
+          $result = toException(
+            function (bool $resolve = true) use ($inputs) {
+              $transients = Transient::fromPromise(
+                $resolve ?
+                  resolve(head($inputs)) :
+                  reject(new \Exception(head($inputs)))
+              )
+                ->mergeN(
+                  ...map(
+                    function (string $input) use ($resolve) {
+                      return Transient::fromPromise(
+                        $resolve ?
+                          resolve($input) :
+                          reject(new \Exception($input))
+                      );
+                    },
+                    tail($inputs)
+                  )
+                );
 
-        $transient  = function (array $data, $resolve = true) {
-          return f\map(function ($entry) use ($resolve) {
-            return Transient::fromPromise(
-              $resolve ? resolve($data) : reject($data)
-            );
-          }, $data);
-        };
+              return await(
+                $transients
+                  ->getObservable()
+                  ->toPromise()
+              );
+            }
+          );
 
-        $success    = $combine($transient($fst));
-        $failure    = $combine($transient($snd, false));
-
-        $this->assertInstanceOf(Transient::class, $success);
-        $this->assertPromiseFulfills(
-          $success
-            ->getObservable()
-            ->toPromise()
-        );
-
-        $this->assertInstanceOf(Transient::class, $failure);
-        $this->assertPromiseRejects(
-          $failure
-            ->getObservable()
-            ->toPromise()
-        );
-      });
+          $this->assertIsString($result());
+          $this->assertIsString($result(false));
+        }
+      );
   }
 }
