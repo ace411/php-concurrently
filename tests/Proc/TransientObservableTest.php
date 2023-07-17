@@ -92,7 +92,7 @@ class TransientObservableTest extends TestCase
                     ->merge(
                       Transient::fromPromise(
                         reject(new \Exception($failure))
-                      ),
+                      )
                     )
                     ->getObservable()
                     ->toPromise()
