@@ -61,7 +61,7 @@ class FunctionsTest extends TestCase
                 self::$writable,
                 $silent,
                 $color,
-                false,
+                false
               );
             }
           );
