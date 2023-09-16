@@ -4,17 +4,17 @@
   verbose="true"
   colors="true"
   columns="max"
-  cacheResult="true"
+  cacheResult="false"
   convertNoticesToExceptions="false"
 >
+  <coverage>
+    <include>
+      <directory suffix=".php">src</directory>
+    </include>
+  </coverage>
   <testsuites>
     <testsuite name="Concurrently package tests">
       <directory>tests</directory>
     </testsuite>
   </testsuites>
-  <filter>
-    <whitelist>
-      <directory suffix=".php">src</directory>
-    </whitelist>
-  </filter>
 </phpunit>
